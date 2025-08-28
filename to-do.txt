@@ -1,0 +1,34 @@
+Finalize Backend (FastAPI + MySQL)
+    Error handling (invalid queries don't crash things) 0.5/1
+    Pagination or filters (if database grows large) 0/1
+    CORS support (frontend talk to backend) 1/1
+    Unit tests to make sure searches work 0/1
+
+Database for Deployment
+    For hosting, will need a cloud MySQL database
+
+Hosting Backend (FastAPI)
+    Render?
+    Deploy backend and point it to the cloud MySQL database
+
+frontend
+    React
+    HTML + JS
+    Will take a search input from the DB_USER
+    Make a fetch request to FastAPI endpoint
+    Display results (JSON) in a clean table/list format
+
+Connect Frontend to backend
+    Frontend: Vercel/Netlify
+    Backend: Render
+    Both tied together via API calls
+
+Deployment of Frontend
+    Vercel (Best for React/Nest.js)
+    Netlify (free + simple)
+
+Polish + Extra Features
+    Authentication (login system)
+    Role-based access
+    Search filters
+    Logging + Monitoring 
