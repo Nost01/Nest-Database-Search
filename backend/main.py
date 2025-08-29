@@ -1,5 +1,5 @@
 # Create a FastAPI instance
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import mysql.connector
@@ -17,6 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
@@ -28,6 +29,7 @@ def get_db_connection():
         return conn
     except mysql.connector.Error as e:
         raise HTTPException(status_code=500, detail=f"Database connection failed: {str(e)}")
+
 
 @app.get("/health")
 def health_check():
@@ -76,7 +78,6 @@ def search_all(keyword: str = Query(..., description="Search keyword")):
     return {"employees": results}
 
 @app.get("/search")
-
 def search_employees(
     FirstName: str | None = Query(None, description="Search by First Name"),
     LastName: str | None = Query(None, description="Search by Last Name"),
