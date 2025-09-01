@@ -15,6 +15,7 @@ export default function EmployeeTable({ employees }) {
                     <th>Vehicle Model</th>
                     <th>Stall Number</th>
                     <th>Number of Vehicles</th>
+                    <th>Phone Number</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +31,7 @@ export default function EmployeeTable({ employees }) {
                         <td>{e.VehicleModel}</td>
                         <td>{e.StallNumber}</td>
                         <td>{e.NumberOfVehicles}</td>
+                        <td>{e.PhoneNumber}</td>
                     </tr>
                 ))}
             </tbody>
