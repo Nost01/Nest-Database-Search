@@ -3,7 +3,7 @@ import EmployeeTable from '../components/EmployeeTable';
 
 const API_BASE = "http://localhost:8000";
 
-export default function SearchPage() {
+export default function SearchPage({ password}) {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -21,7 +21,11 @@ export default function SearchPage() {
     
         try {
             const url = `${API_BASE}/search/all?keyword=${encodeURIComponent(keyword.trim())}`;
-            const res = await fetch(url);
+            const res = await fetch(url, {
+                headers: {
+                    Authorization: "Basic " + btoa(`user:${password}`),
+                },
+            });
             if (!res.ok) throw new Error(`Request failed ${res.status}`);
             
             const data = await res.json();

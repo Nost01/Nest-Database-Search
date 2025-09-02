@@ -1,8 +1,10 @@
 # Create a FastAPI instance
-from fastapi import FastAPI, Query, HTTPException, APIRouter
+from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from pydantic import BaseModel
 import mysql.connector
+import bcrypt
 import os
 import uvicorn
 
@@ -44,7 +46,16 @@ def health_check():
     except Exception as e:
         return {"status": "error", "details": str(e)}
 
-        
+class LoginRequest(BaseModel):
+    password: str
+
+@app.post("/login")
+def login(data: LoginRequest):
+    hashed_password = os.getenv("APP_PASSWORD_HASH").encode('utf-8')
+    if bcrypt.checkpw(data.password.encode('utf-8'), hashed_password):
+        return {"message": "Login successful"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid password")
     
 # Search Endpoints
 
@@ -64,10 +75,11 @@ def search_all(keyword: str = Query(..., description="Search keyword")):
         OR LOWER(VehicleMake) LIKE %s
         OR LOWER(VehicleModel) LIKE %s
         OR LOWER(StallNumber) LIKE %s
+        OR LOWER(PhoneNumber) LIKE %s
     """
 
     kw = f"%{keyword.lower()}%"
-    params = [kw] * 9
+    params = [kw] * 10
 
     cursor.execute(query, params)
     results = cursor.fetchall()
@@ -88,7 +100,8 @@ def search_employees(
     VehicleMake: str | None = Query(None, description="Search by Vehicle Make"),
     VehicleModel: str | None = Query(None, description="Search by Vehicle Model"),
     StallNumber: str | None = Query(None, description="Search by Stall Number"),
-    NumberOfVehicles: int | None = Query(None, description="Search by Number of Vehicles")
+    NumberOfVehicles: int | None = Query(None, description="Search by Number of Vehicles"),
+    PhoneNumber: str | None = Query(None, description="Search by Phone Number")
 ):
     
     conn = get_db_connection()
@@ -129,6 +142,9 @@ def search_employees(
     if NumberOfVehicles is not None:
         query += " AND NumberOfVehicles = %s"
         params.append(NumberOfVehicles)
+    if PhoneNumber:
+        query += " AND LOWER(PhoneNumber) LIKE %s"
+        params.append(f"%{PhoneNumber.strip().lower()}%")
 
     cursor.execute(query, params)
     results = cursor.fetchall()
