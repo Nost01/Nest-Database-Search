@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import EmployeeTable from '../components/EmployeeTable';
+import "../styles.css";
+import nestImage from "../components/NEST-Horizontal-Logo-01-1030x321.png";
 
 const API_BASE = "http://localhost:8000";
 
@@ -48,26 +50,28 @@ const handleClear = () => {
 };
 
 return (
-    <div>
-        <h1>Nest Database Search</h1>
+    <div className="search-container">
+        <img src={nestImage} alt="Nest Logo" className="nest-logo"/>
+        <div className="search-box">
+            <h1>Nest Database Search</h1>
+            <form onSubmit={handleSearch} classname="search-form">
+                <input
+                    type="text"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    placeholder="What are you looking for?"
+                />
+                <button type="submit" id="search-button">Search</button>
+                <button type="button" onClick={handleClear}>Clear</button>
+            </form>
 
-        <form onSubmit={handleSearch}>
-            <input
-                type="text"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                placeholder="What are you looking for?"
-            />
-            <button type="submit">Search</button>
-            <button type="button" onClick={handleClear}>Clear</button>
-        </form>
+            {loading && <p>Loading...</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        {loading && <p>Loading...</p>}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-
-        {!loading && !error && searched && (
-            <EmployeeTable employees={employees} />
-        )}
+            {!loading && !error && searched && (
+                <EmployeeTable employees={employees} />
+            )}
+        </div>
     </div>
 );
 
