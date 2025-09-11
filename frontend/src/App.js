@@ -4,10 +4,11 @@ import SearchPage from './pages/SearchPage';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleLogin = async (password) => {
     try {
-      const res = await fetch('http://localhost:8000/login', {
+      const res = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
