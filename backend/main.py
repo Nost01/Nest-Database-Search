@@ -1,6 +1,7 @@
 # Create a FastAPI instance
 from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from pydantic import BaseModel
 import mysql.connector
@@ -8,8 +9,11 @@ import bcrypt
 import os
 import uvicorn
 
-load_dotenv("variables.env")
+frontend_path = os.path.join(os.path.dirname(__file__), "../frontend/build")
 app = FastAPI(title="Employee Search API", description="API for searching employee details in a database")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
+
+load_dotenv("variables.env")
 
 app.add_middleware(
     CORSMiddleware,
