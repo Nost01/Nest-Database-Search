@@ -54,7 +54,7 @@ return (
         <img src={nestImage} alt="Nest Logo" className="nest-logo"/>
         <div className="search-box">
             <h1>Nest Database Search</h1>
-            <form onSubmit={handleSearch} classname="search-form">
+            <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="text"
                     value={keyword}
@@ -62,7 +62,7 @@ return (
                     placeholder="What are you looking for?"
                 />
                 <button type="submit" id="search-button">Search</button>
-                <button type="button" onClick={handleClear}>Clear</button>
+                <button type="button" id="clear-button" onClick={handleClear}>Clear</button>
             </form>
 
             {loading && <p>Loading...</p>}
