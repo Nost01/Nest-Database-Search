@@ -2,6 +2,7 @@
 from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 from dotenv import load_dotenv
 from pydantic import BaseModel
 import mysql.connector
@@ -11,9 +12,10 @@ import uvicorn
 
 frontend_path = os.path.join(os.path.dirname(__file__), "../frontend/build")
 app = FastAPI(title="Employee Search API", description="API for searching employee details in a database")
-app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
+app.mount("/app", StaticFiles(directory=frontend_path, html=True), name="static")
 
-load_dotenv("variables.env")
+env_path = Path(__file__).parent / "variables.env"
+load_dotenv(env_path)
 
 app.add_middleware(
     CORSMiddleware,
@@ -36,6 +38,10 @@ def get_db_connection():
     except mysql.connector.Error as e:
         raise HTTPException(status_code=500, detail=f"Database connection failed: {str(e)}")
 
+# Hash Check 
+@app.get("/debug-hash")
+def debug_hash():
+    return {"hash": os.getenv("APP_PASSWORD_HASH")}
 
 @app.get("/health")
 def health_check():
