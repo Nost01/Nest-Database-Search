@@ -1,0 +1,38 @@
+# Deployment Checklist 
+
+1. Project Contents
+- **backend/**
+  - `main.py`
+  - `requirements.txt`
+  - `variables.env`
+- **frontend/**
+  - `build/` (from `npm run build`)
+
+---
+
+2. Backend Setup
+- Install Python dependencies:
+  pip install -r requirements.txt
+- Load environment variables from `variables.env` (contains DB creds + password hash).
+- Run FastAPI with Gunicorn:
+  gunicorn -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+
+---
+
+3. Frontend Setup  
+
+Option B (FastAPI all-in-one):
+- In `main.py`:
+  ```python
+  from fastapi.staticfiles import StaticFiles
+  app.mount("/", StaticFiles(directory="../frontend/build", html=True), name="static")
+  ```
+
+---
+
+4. Networking & Config
+- Confirm final domain (e.g. `https://intranet.company.com`).
+- Update React `REACT_APP_API_URL` before build if backend served at `/api`.
+- Restrict **CORS** in `main.py` to company domain.
+- Run with **HTTPS** enabled.
+

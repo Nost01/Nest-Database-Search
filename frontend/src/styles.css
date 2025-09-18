@@ -1,0 +1,31 @@
+.login-container, .search-container {
+    padding-top: 150px;
+    border-left: 150px solid #706F6D;
+    border-right: 150px solid #706F6D;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    background-color: #EBE1BC;
+}
+
+.login-box, .search-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.nest-logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 40%;
+    padding-top: 20px;
+    height: auto;
+}
+
+#login-button, #search-button, #clear-button {
+   display: block;
+   margin: 10px auto 0;
+}
+
