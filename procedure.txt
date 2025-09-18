@@ -1,0 +1,7 @@
+Install Visual Studio Code, Python, Node.js, Git Bash.
+Install MySQL, create a new database, then source the .sql file from system.
+Create a new folder in C: drive, then clone "https://github.com/Nost01/Nest-Database-Search.git".
+Arrange the folder structure so it's the same as GitHub.
+Then cd into the backend folder, and run "pip install -r requirements.txt" to install all dependencies.
+Then cd into the frontend folder, run "npm install" and "npm run build"
+From the same frontend folder, run "npm run dev" to start the app in browser.
