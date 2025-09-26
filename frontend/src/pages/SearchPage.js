@@ -3,7 +3,7 @@ import EmployeeTable from '../components/EmployeeTable';
 import "../styles.css";
 import nestImage from "../components/NEST-Horizontal-Logo-01-1030x321.png";
 
-const API_BASE = "http://localhost:8000";
+
 
 export default function SearchPage({ password}) {
     const [employees, setEmployees] = useState([]);
@@ -22,7 +22,7 @@ export default function SearchPage({ password}) {
         setSearched(true);
     
         try {
-            const url = `${API_BASE}/search/1.0?keyword=${encodeURIComponent(keyword.trim())}`;
+            const url = `/search/1.0?keyword=${encodeURIComponent(keyword.trim())}`;
             const res = await fetch(url, {
                 headers: {
                     Authorization: "Basic " + btoa(`user:${password}`),
